@@ -42,12 +42,10 @@ export default function App() {
         <div className="container nav-inner">
           <a href="#" className="brand" id="brand-logo">
             <div className="brand-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
+              <img src="./app_icon.png" alt="Testify Pro Logo" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'contain' }} />
             </div>
             <span>Testify Pro</span>
-            <span className="brand-badge">v1.0</span>
+            <span className="brand-badge">v2.0</span>
           </a>
 
           <nav>
@@ -78,7 +76,7 @@ export default function App() {
         <div className="container">
           <div className="status-pill" id="hero-badge">
             <span className="pulse-dot"></span>
-            <span>Testify Pro v1.0.0 Production Release &bull; Native Desktop App</span>
+            <span>Testify Pro v2.0.0 Production Release &bull; Native Desktop App</span>
           </div>
 
           <h1>
@@ -138,7 +136,7 @@ export default function App() {
                 <div className="dot dot-yellow"></div>
                 <div className="dot dot-green"></div>
               </div>
-              <div className="terminal-title">testify-pro-workstation v1.0.0</div>
+              <div className="terminal-title">testify-pro-workstation v2.0.0</div>
               <div style={{ width: 48 }}></div>
             </div>
 
@@ -483,23 +481,21 @@ export default function App() {
             <div className="glass-card download-card highlight">
               <div className="platform-header">
                 <div className="platform-info">
-                  <div className="platform-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.65 1.36-.56.65-.96 1.7-0.82 2.72 1 .08 1.93-.48 2.55-1.23z"/>
-                    </svg>
+                  <div className="platform-icon" style={{ padding: 4 }}>
+                    <img src="./app_icon.png" alt="Testify Pro App Icon" style={{ width: '100%', height: '100%', borderRadius: 6, objectFit: 'contain' }} />
                   </div>
                   <div className="platform-title">
                     <h3>macOS</h3>
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Apple Silicon (arm64) &amp; Intel</p>
                   </div>
                 </div>
-                <span className="platform-badge">Verified Build</span>
+                <span className="platform-badge">Release v2.0</span>
               </div>
 
               <ul className="download-specs">
                 <li>
                   <span>Version</span>
-                  <span>v1.0.0 Stable</span>
+                  <span>v2.0.0 Stable</span>
                 </li>
                 <li>
                   <span>macOS Requirement</span>
@@ -586,7 +582,7 @@ export default function App() {
 
               <div className="download-buttons">
                 <a 
-                  href="https://github.com/mayanksmind/testify_pro/releases/latest" 
+                  href="https://github.com/flutterbuddy1/testify_pro/releases/latest" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="btn btn-primary"
@@ -601,7 +597,7 @@ export default function App() {
                 </a>
 
                 <a 
-                  href="https://github.com/mayanksmind/testify_pro/releases/latest" 
+                  href="https://github.com/flutterbuddy1/testify_pro/releases/latest" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="btn btn-secondary"
@@ -626,9 +622,7 @@ export default function App() {
           <div className="footer-inner">
             <div className="brand">
               <div className="brand-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
+                <img src="./app_icon.png" alt="Testify Pro Logo" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'contain' }} />
               </div>
               <span>Testify Pro</span>
             </div>
@@ -638,7 +632,7 @@ export default function App() {
               <li><a href="#schema">JSON Schema</a></li>
               <li><a href="#cli">CLI Runner</a></li>
               <li><a href="#downloads">Downloads</a></li>
-              <li><a href="https://github.com/mayanksmind/testify_pro" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://github.com/flutterbuddy1/testify_pro" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             </ul>
           </div>
 
