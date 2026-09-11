@@ -22,6 +22,8 @@ _$FlowStepImpl _$$FlowStepImplFromJson(Map<String, dynamic> json) =>
       thinkTimeMs: (json['thinkTimeMs'] as num?)?.toInt() ?? 0,
       stopOnFailure: json['stopOnFailure'] as bool? ?? true,
       enabled: json['enabled'] as bool? ?? true,
+      preRequestScript: json['preRequestScript'] as String?,
+      testScript: json['testScript'] as String?,
     );
 
 Map<String, dynamic> _$$FlowStepImplToJson(_$FlowStepImpl instance) =>
@@ -34,6 +36,8 @@ Map<String, dynamic> _$$FlowStepImplToJson(_$FlowStepImpl instance) =>
       'thinkTimeMs': instance.thinkTimeMs,
       'stopOnFailure': instance.stopOnFailure,
       'enabled': instance.enabled,
+      'preRequestScript': instance.preRequestScript,
+      'testScript': instance.testScript,
     };
 
 _$AssertionImpl _$$AssertionImplFromJson(Map<String, dynamic> json) =>

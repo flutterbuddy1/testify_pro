@@ -8,6 +8,13 @@ import '../../data/repositories/saved_request_repository.dart';
 import '../../data/repositories/environment_repository.dart';
 import '../../domain/entities/environment.dart';
 import '../../domain/entities/flow.dart' as entities;
+import '../../infrastructure/flow_engine/flow_executor.dart';
+
+/// Flow Executor Provider
+final flowExecutorProvider = Provider<FlowExecutor>((ref) {
+  final repo = ref.watch(testRunRepositoryProvider);
+  return FlowExecutor(HttpService(), repository: repo);
+});
 
 /// Test Run Repository Provider (Singleton)
 final testRunRepositoryProvider = Provider<TestRunRepository>((ref) {
@@ -58,8 +65,7 @@ final activeEnvironmentProvider = Provider<Environment?>((ref) {
   return ref
       .watch(environmentsProvider)
       .whenOrNull(
-        data: (envs) =>
-            envs.firstWhere((e) => e.isActive, orElse: () => null as dynamic),
+        data: (envs) => envs.where((e) => e.isActive).firstOrNull,
       );
 });
 

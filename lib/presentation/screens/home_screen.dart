@@ -1,5 +1,5 @@
 // Home Screen - Main Application Shell
-// Navigation rail with different testing modes
+// Navigation rail with different testing modes and collapsible sidebar
 
 import 'package:flutter/material.dart';
 
@@ -21,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  bool _isRailExtended = false;
 
   final List<_NavigationItem> _items = [
     _NavigationItem(
@@ -57,54 +58,89 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(Icons.science, color: Theme.of(context).colorScheme.primary),
-            const SizedBox(width: 8),
-            const Text(AppConstants.appName),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsScreen()),
-              );
-            },
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isNarrow = constraints.maxWidth < 950;
+        final extended = !isNarrow && _isRailExtended;
+
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(_isRailExtended ? Icons.menu_open : Icons.menu),
+              tooltip: _isRailExtended ? 'Collapse sidebar' : 'Expand sidebar',
+              onPressed: () {
+                setState(() {
+                  _isRailExtended = !_isRailExtended;
+                });
+              },
+            ),
+            title: Row(
+              children: [
+                Icon(Icons.science, color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 8),
+                const Text(AppConstants.appName),
+              ],
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                tooltip: 'Settings',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-      body: Row(
-        children: [
-          // Navigation Rail
-          NavigationRail(
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            labelType: NavigationRailLabelType.all,
-            destinations: _items
-                .map(
-                  (item) => NavigationRailDestination(
-                    icon: Icon(item.icon),
-                    label: Text(item.label),
+          body: Row(
+            children: [
+              // Navigation Rail (Collapsible / Expandable)
+              NavigationRail(
+                extended: extended,
+                selectedIndex: _selectedIndex,
+                onDestinationSelected: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+                labelType: extended ? null : NavigationRailLabelType.all,
+                trailing: Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: IconButton(
+                        icon: Icon(extended ? Icons.chevron_left : Icons.chevron_right),
+                        tooltip: extended ? 'Collapse rail' : 'Expand rail',
+                        onPressed: () {
+                          setState(() {
+                            _isRailExtended = !_isRailExtended;
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                )
-                .toList(),
+                ),
+                destinations: _items
+                    .map(
+                      (item) => NavigationRailDestination(
+                        icon: Icon(item.icon),
+                        label: Text(item.label),
+                      ),
+                    )
+                    .toList(),
+              ),
+
+              const VerticalDivider(thickness: 1, width: 1),
+
+              // Main content
+              Expanded(child: _items[_selectedIndex].screen),
+            ],
           ),
-
-          const VerticalDivider(thickness: 1, width: 1),
-
-          // Main content
-          Expanded(child: _items[_selectedIndex].screen),
-        ],
-      ),
+        );
+      },
     );
   }
 }

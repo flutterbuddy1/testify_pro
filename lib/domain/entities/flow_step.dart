@@ -30,6 +30,12 @@ class FlowStep with _$FlowStep {
 
     /// Enable this step
     @Default(true) bool enabled,
+
+    /// Optional pre-request script executed before the HTTP call
+    String? preRequestScript,
+
+    /// Optional test script executed after the response is received
+    String? testScript,
   }) = _FlowStep;
 
   factory FlowStep.fromJson(Map<String, dynamic> json) =>

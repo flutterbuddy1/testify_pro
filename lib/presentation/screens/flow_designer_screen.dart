@@ -9,6 +9,9 @@ import '../../domain/entities/api_request.dart';
 import '../../infrastructure/flow_engine/flow_executor.dart';
 import '../../data/services/http_service.dart';
 import '../../core/providers/global_providers.dart';
+import '../widgets/desktop_splitter.dart';
+import '../dialogs/flow_json_dialog.dart';
+import '../dialogs/data_runner_dialog.dart';
 
 class FlowDesignerScreen extends ConsumerStatefulWidget {
   const FlowDesignerScreen({super.key});
@@ -28,6 +31,8 @@ class _FlowDesignerScreenState extends ConsumerState<FlowDesignerScreen> {
   final ScrollController _consoleScrollController = ScrollController();
   // Console state
   double _consoleHeight = 250;
+  double _sidebarWidth = 260.0;
+  bool _isSidebarCollapsed = false;
 
   Future<void> _createNewFlow() async {
     final newFlow = entities.Flow(
@@ -150,8 +155,12 @@ class _FlowDesignerScreenState extends ConsumerState<FlowDesignerScreen> {
     buffer.writeln('Status: ${response.statusCode} ${response.statusMessage}');
     buffer.writeln('Time: ${response.responseTimeMs}ms');
     buffer.writeln('Size: ${response.sizeBytes} bytes');
-    buffer.writeln('\n--- Headers ---');
-    (response.headers as Map).forEach((k, v) => buffer.writeln('$k: $v'));
+    buffer.writeln('\n--- Headers (${response.headers.length}) ---');
+    if (response.headers.isEmpty) {
+      buffer.writeln('(None)');
+    } else {
+      (response.headers as Map).forEach((k, v) => buffer.writeln('$k: $v'));
+    }
     buffer.writeln('\n--- Body ---');
     buffer.write(response.body);
     return buffer.toString();
@@ -165,9 +174,58 @@ class _FlowDesignerScreenState extends ConsumerState<FlowDesignerScreen> {
       body: flowsAsync.when(
         data: (flows) => Row(
           children: [
-            // Left Sidebar: Flows List
-            _buildSidebar(flows),
-            const VerticalDivider(width: 1),
+            // Left Sidebar: Flows List (Collapsible and Resizable)
+            if (!_isSidebarCollapsed) ...[
+              SizedBox(
+                width: _sidebarWidth,
+                child: _buildSidebar(flows),
+              ),
+              DesktopVerticalSplitter(
+                onDrag: (dx) {
+                  setState(() {
+                    _sidebarWidth = (_sidebarWidth + dx).clamp(180.0, 500.0);
+                  });
+                },
+                onDoubleTap: () => setState(() => _isSidebarCollapsed = true),
+              ),
+            ] else ...[
+              Container(
+                width: 42,
+                color: Theme.of(context).cardColor.withValues(alpha: 0.5),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 12),
+                    IconButton(
+                      icon: const Icon(Icons.account_tree, size: 20),
+                      tooltip: 'Expand Flows Sidebar',
+                      onPressed: () =>
+                          setState(() => _isSidebarCollapsed = false),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.upload_file, size: 18),
+                      tooltip: 'Import Flow from JSON',
+                      onPressed: _showImportDialog,
+                    ),
+                    const SizedBox(height: 8),
+                    RotatedBox(
+                      quarterTurns: 3,
+                      child: Text(
+                        'Flows (${flows.length})',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurfaceVariant
+                              .withValues(alpha: 0.6),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const VerticalDivider(width: 1),
+            ],
             // Right Plane: Editor + Console
             Expanded(
               child: _selectedFlow == null
@@ -184,19 +242,35 @@ class _FlowDesignerScreenState extends ConsumerState<FlowDesignerScreen> {
 
   Widget _buildSidebar(List<entities.Flow> flows) {
     return Container(
-      width: 250,
-      color: Theme.of(context).cardColor.withOpacity(0.5),
+      color: Theme.of(context).cardColor.withValues(alpha: 0.5),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
-            child: ElevatedButton.icon(
-              onPressed: _createNewFlow,
-              icon: const Icon(Icons.add),
-              label: const Text('Add Flow'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(40),
-              ),
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: _createNewFlow,
+                    icon: const Icon(Icons.add, size: 16),
+                    label: const Text('Add Flow'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                IconButton(
+                  icon: const Icon(Icons.upload_file, size: 18),
+                  tooltip: 'Import Flow from JSON',
+                  onPressed: _showImportDialog,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.chevron_left, size: 20),
+                  tooltip: 'Collapse sidebar',
+                  onPressed: () => setState(() => _isSidebarCollapsed = true),
+                ),
+              ],
             ),
           ),
           const Divider(height: 1),
@@ -447,6 +521,21 @@ class _FlowDesignerScreenState extends ConsumerState<FlowDesignerScreen> {
             ),
           ),
           IconButton(
+            icon: const Icon(Icons.file_download_outlined, size: 20),
+            tooltip: 'Export Flow to JSON',
+            onPressed: () => FlowJsonExportDialog.show(context, _selectedFlow!),
+          ),
+          IconButton(
+            icon: const Icon(Icons.help_outline, size: 18),
+            tooltip: 'Flow JSON Specification Guide',
+            onPressed: () => FlowJsonHelpDialog.show(context),
+          ),
+          IconButton(
+            icon: const Icon(Icons.dataset_outlined, size: 20, color: Colors.blue),
+            tooltip: 'Run with Data File (CSV / JSON)',
+            onPressed: _isExecuting ? null : () => DataRunnerDialog.show(context, _selectedFlow!),
+          ),
+          IconButton(
             icon: Icon(
               _isExecuting ? Icons.stop : Icons.play_arrow,
               color: _isExecuting ? Colors.red : Colors.green,
@@ -516,31 +605,19 @@ class _FlowDesignerScreenState extends ConsumerState<FlowDesignerScreen> {
   Widget _buildConsole() {
     return Column(
       children: [
-        // Drag Handle
-        GestureDetector(
-          onVerticalDragUpdate: (details) {
+        // Horizontal Desktop Splitter with Drag Handle
+        DesktopHorizontalSplitter(
+          height: 10,
+          onDrag: (dy) {
             setState(() {
-              _consoleHeight = (_consoleHeight - details.delta.dy).clamp(
-                100.0,
-                600.0,
-              );
+              _consoleHeight = (_consoleHeight - dy).clamp(60.0, 600.0);
             });
           },
-          child: Container(
-            height: 12,
-            width: double.infinity,
-            color: Colors.grey[200],
-            child: Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-          ),
+          onDoubleTap: () {
+            setState(() {
+              _consoleHeight = _consoleHeight > 300 ? 150.0 : 400.0;
+            });
+          },
         ),
         // Console Area
         Container(
@@ -771,6 +848,16 @@ class _FlowDesignerScreenState extends ConsumerState<FlowDesignerScreen> {
       ),
       items: [
         PopupMenuItem(
+          onTap: () => FlowJsonExportDialog.show(context, flow),
+          child: const Row(
+            children: [
+              Icon(Icons.file_download_outlined, size: 18),
+              SizedBox(width: 12),
+              Text('Export JSON'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
           onTap: () => _renameFlow(flow),
           child: const Row(
             children: [
@@ -847,6 +934,25 @@ class _FlowDesignerScreenState extends ConsumerState<FlowDesignerScreen> {
           _selectedFlow = null;
           _expandedStepIndex = null;
         });
+      }
+    }
+  }
+
+  Future<void> _showImportDialog() async {
+    final result = await FlowJsonImportDialog.show(context);
+    if (result != null) {
+      await _saveFlow(result.flow);
+      setState(() {
+        _selectedFlow = result.flow;
+        _expandedStepIndex = null;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Flow "${result.flow.name}" imported successfully!')),
+        );
+      }
+      if (result.runImmediately) {
+        _runFlow();
       }
     }
   }

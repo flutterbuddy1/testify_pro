@@ -236,10 +236,15 @@ Future<ApiResponse> _executeRequest(Dio dio, ApiRequest request) async {
     );
 
     // Build URL with query params
-    final uri = Uri.parse(request.url);
-    final finalUri = uri.replace(
-      queryParameters: {...uri.queryParameters, ...request.queryParams},
-    );
+    var rawUrl = request.url.trim();
+    if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
+      rawUrl = 'https://$rawUrl';
+    }
+    final uri = Uri.parse(rawUrl);
+    final allQueryParams = {...uri.queryParameters, ...request.queryParams};
+    final finalUri = allQueryParams.isNotEmpty
+        ? uri.replace(queryParameters: allQueryParams)
+        : uri;
 
     // Execute request
     final response = await dio.request(
@@ -254,7 +259,7 @@ Future<ApiResponse> _executeRequest(Dio dio, ApiRequest request) async {
     // Convert response to domain entity
     return ApiResponse(
       statusCode: response.statusCode ?? 0,
-      statusMessage: response.statusMessage ?? '',
+      statusMessage: response.statusMessage ?? 'OK',
       headers: _convertHeaders(response.headers.map),
       body: response.data?.toString() ?? '',
       responseTimeMs: responseTime,
@@ -264,6 +269,20 @@ Future<ApiResponse> _executeRequest(Dio dio, ApiRequest request) async {
   } catch (e) {
     final endTime = DateTime.now();
     final responseTime = endTime.difference(startTime).inMilliseconds;
+
+    if (e is DioException && e.response != null) {
+      final resp = e.response!;
+      return ApiResponse(
+        statusCode: resp.statusCode ?? 0,
+        statusMessage: resp.statusMessage ?? (e.message ?? 'Error'),
+        headers: _convertHeaders(resp.headers.map),
+        body: resp.data?.toString() ?? '',
+        responseTimeMs: responseTime,
+        sizeBytes: resp.data?.toString().length ?? 0,
+        timestamp: endTime,
+        error: e.message ?? e.toString(),
+      );
+    }
 
     return ApiResponse(
       statusCode: 0,

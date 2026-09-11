@@ -1,0 +1,125 @@
+{
+  "$schema": "https://testifypro.dev/schemas/flow.v1.json",
+  "name": "Rate Chart Automation",
+  "variables": {
+    "URL": "",
+    "token": "",
+    "Policy Name": "",
+    "policyType": "",
+    "familyComp": "",
+    "Deductible": "",
+    "urn_number": "",
+    "membersPayload": "",
+    "name": "",
+    "insurer": ""
+  },
+  "tags": [
+    "postman-collection"
+  ],
+  "steps": [
+    {
+      "name": "STU Care / P1 Policy / Quotation - 20yrs",
+      "enabled": true,
+      "stopOnFailure": true,
+      "request": {
+        "url": "{{URL}}/group/quotation",
+        "method": "POST",
+        "headers": {
+          "accept": "application/json",
+          "authorization": "Token {{token}}",
+          "content-type": "application/json"
+        },
+        "body": "{\n    \"bundleName\": \"\",\n    \"healthDetails\": {\n        \"is_renewal\": false,\n        \"policyName\": \"{{Policy Name}}\",\n        \"policyType\": \"{{policyType}}\",\n        \"familyComposition\": \"{{familyComp}}\",\n        \"deductibleAmount\": \"{{Deductible}}\",\n        \"urn_number\": \"{{urn_number}}\",\n        \"members\": {{membersPayload}}\n    },\n    \"productType\": \"Health\",\n    \"planDetails\": {\n        \"name\": \"{{name}}\",\n        \"insurer\": \"{{insurer}}\",\n        \"duration\": \"12\",\n        \"policyType\": \"{{policyType}}\",\n        \"paymentMode\": \"online\",\n        \"durationType\": \"months\"\n    }\n}"
+      },
+      "extractors": {
+        "actualValue": "$.data.total_net_premium"
+      },
+      "assertions": [
+        {
+          "name": "Status is 200",
+          "type": "statusCode",
+          "expected": "200"
+        }
+      ],
+      "testScript": "const response = pm.response.json();\nconst actualValue = response.data.total_net_premium;\npm.globals.set(\"actualValue\", actualValue);\nif (pm.response.code !== 200) { pm.expect.fail(); }"
+    },
+    {
+      "name": "STU Care / P1 Policy / Quotation - 30yrs",
+      "enabled": true,
+      "stopOnFailure": true,
+      "request": {
+        "url": "{{URL}}/group/quotation",
+        "method": "POST",
+        "headers": {
+          "accept": "application/json",
+          "authorization": "Token {{token}}",
+          "content-type": "application/json"
+        },
+        "body": "{\n    \"bundleName\": \"\",\n    \"healthDetails\": {\n        \"is_renewal\": false,\n        \"policyName\": \"{{Policy Name}}\",\n        \"policyType\": \"{{policyType}}\",\n        \"familyComposition\": \"{{familyComp}}\",\n        \"deductibleAmount\": \"{{Deductible}}\",\n        \"urn_number\": \"{{urn_number}}\",\n        \"members\": {{membersPayload}}\n    },\n    \"productType\": \"Health\",\n    \"planDetails\": {\n        \"name\": \"{{name}}\",\n        \"insurer\": \"{{insurer}}\",\n        \"duration\": \"12\",\n        \"policyType\": \"{{policyType}}\",\n        \"paymentMode\": \"online\",\n        \"durationType\": \"months\"\n    }\n}"
+      },
+      "extractors": {
+        "actualValue": "$.data.total_net_premium"
+      },
+      "assertions": [
+        {
+          "name": "Status is 200",
+          "type": "statusCode",
+          "expected": "200"
+        }
+      ],
+      "testScript": "const response = pm.response.json();\nconst actualValue = response.data.total_net_premium;\npm.globals.set(\"actualValue\", actualValue);\nif (pm.response.code !== 200) { pm.expect.fail(); }"
+    },
+    {
+      "name": "STU Care / P1 Policy / Quotation - 45yrs",
+      "enabled": true,
+      "stopOnFailure": true,
+      "request": {
+        "url": "{{URL}}/group/quotation",
+        "method": "POST",
+        "headers": {
+          "accept": "application/json",
+          "authorization": "Token {{token}}",
+          "content-type": "application/json"
+        },
+        "body": "{\n    \"bundleName\": \"\",\n    \"healthDetails\": {\n        \"is_renewal\": false,\n        \"policyName\": \"{{Policy Name}}\",\n        \"policyType\": \"{{policyType}}\",\n        \"familyComposition\": \"{{familyComp}}\",\n        \"deductibleAmount\": \"{{Deductible}}\",\n        \"urn_number\": \"{{urn_number}}\",\n        \"members\": {{membersPayload}}\n    },\n    \"productType\": \"Health\",\n    \"planDetails\": {\n        \"name\": \"{{name}}\",\n        \"insurer\": \"{{insurer}}\",\n        \"duration\": \"12\",\n        \"policyType\": \"{{policyType}}\",\n        \"paymentMode\": \"online\",\n        \"durationType\": \"months\"\n    }\n}"
+      },
+      "extractors": {
+        "actualValue": "$.data.total_net_premium"
+      },
+      "assertions": [
+        {
+          "name": "Status is 200",
+          "type": "statusCode",
+          "expected": "200"
+        }
+      ],
+      "testScript": "const response = pm.response.json();\nconst actualValue = response.data.total_net_premium;\npm.globals.set(\"actualValue\", actualValue);\nif (pm.response.code !== 200) { pm.expect.fail(); }"
+    },
+    {
+      "name": "STU Care / P2 Policy / Quotation - 30yrs",
+      "enabled": true,
+      "stopOnFailure": true,
+      "request": {
+        "url": "{{URL}}/group/quotation",
+        "method": "POST",
+        "headers": {
+          "accept": "application/json",
+          "authorization": "Token {{token}}",
+          "content-type": "application/json"
+        },
+        "body": "{\n    \"bundleName\": \"\",\n    \"healthDetails\": {\n        \"is_renewal\": false,\n        \"policyName\": \"{{Policy Name}}\",\n        \"policyType\": \"{{policyType}}\",\n        \"familyComposition\": \"{{familyComp}}\",\n        \"deductibleAmount\": \"{{Deductible}}\",\n        \"urn_number\": \"{{urn_number}}\",\n        \"members\": {{membersPayload}}\n    },\n    \"productType\": \"Health\",\n    \"planDetails\": {\n        \"name\": \"{{name}}\",\n        \"insurer\": \"{{insurer}}\",\n        \"duration\": \"12\",\n        \"policyType\": \"{{policyType}}\",\n        \"paymentMode\": \"online\",\n        \"durationType\": \"months\"\n    }\n}"
+      },
+      "extractors": {
+        "actualValue": "$.data.total_net_premium"
+      },
+      "assertions": [
+        {
+          "name": "Status is 200",
+          "type": "statusCode",
+          "expected": "200"
+        }
+      ],
+      "testScript": "const response = pm.response.json();\nconst actualValue = response.data.total_net_premium;\npm.globals.set(\"actualValue\", actualValue);\nif (pm.response.code !== 200) { pm.expect.fail(); }"
+    }
+  ]
+}

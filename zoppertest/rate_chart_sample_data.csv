@@ -1,0 +1,4 @@
+Sum Insured,Family Composition,20Yrs,30Yrs,45Yrs,Policy Name,policyType,Deductible,urn_number,name,insurer
+500000,1A,4214,4800,6200,Comprehensive Health Plan,Floater,0,URN12345,Gold Plan,Acme Insurance
+500000,1A+1C,5100,5800,7400,Comprehensive Health Plan,Floater,0,URN12345,Gold Plan,Acme Insurance
+1000000,2A+2C,8500,9400,11900,Comprehensive Health Plan,Floater,0,URN12345,Diamond Plan,Acme Insurance

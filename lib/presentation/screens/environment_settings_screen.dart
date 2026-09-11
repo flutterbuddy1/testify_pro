@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../core/providers/global_providers.dart';
 import '../../domain/entities/environment.dart';
+import '../widgets/desktop_splitter.dart';
 
 class EnvironmentSettingsScreen extends ConsumerStatefulWidget {
   const EnvironmentSettingsScreen({super.key});
@@ -16,6 +17,7 @@ class _EnvironmentSettingsScreenState
     extends ConsumerState<EnvironmentSettingsScreen> {
   final _uuid = const Uuid();
   Environment? _selectedEnv;
+  double _sidebarWidth = 260.0;
 
   void _createNewEnvironment() {
     final newEnv = Environment(
@@ -48,9 +50,9 @@ class _EnvironmentSettingsScreenState
       body: envsAsync.when(
         data: (envs) => Row(
           children: [
-            // Sidebar
+            // Resizable Sidebar
             SizedBox(
-              width: 250,
+              width: _sidebarWidth,
               child: ListView.builder(
                 itemCount: envs.length,
                 itemBuilder: (context, index) {
@@ -74,7 +76,13 @@ class _EnvironmentSettingsScreenState
                 },
               ),
             ),
-            const VerticalDivider(width: 1),
+            DesktopVerticalSplitter(
+              onDrag: (dx) {
+                setState(() {
+                  _sidebarWidth = (_sidebarWidth + dx).clamp(180.0, 450.0);
+                });
+              },
+            ),
             // Editor
             Expanded(
               child: _selectedEnv == null

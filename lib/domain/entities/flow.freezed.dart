@@ -33,12 +33,8 @@ mixin _$Flow {
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
-  /// Serializes this Flow to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Flow
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $FlowCopyWith<Flow> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -68,8 +64,6 @@ class _$FlowCopyWithImpl<$Res, $Val extends Flow>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Flow
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,8 +138,6 @@ class __$$FlowImplCopyWithImpl<$Res>
   __$$FlowImplCopyWithImpl(_$FlowImpl _value, $Res Function(_$FlowImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Flow
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -281,7 +273,7 @@ class _$FlowImpl implements _Flow {
                 other.updatedAt == updatedAt));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -294,9 +286,7 @@ class _$FlowImpl implements _Flow {
       createdAt,
       updatedAt);
 
-  /// Create a copy of Flow
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$FlowImplCopyWith<_$FlowImpl> get copyWith =>
@@ -331,23 +321,20 @@ abstract class _Flow implements Flow {
   String? get description;
   @override
   List<FlowStep> get steps;
+  @override
 
   /// Global variables available to all steps
-  @override
   Map<String, String> get variables;
+  @override
 
   /// Tags for organization
-  @override
   List<String> get tags;
   @override
   DateTime get createdAt;
   @override
   DateTime get updatedAt;
-
-  /// Create a copy of Flow
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$FlowImplCopyWith<_$FlowImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

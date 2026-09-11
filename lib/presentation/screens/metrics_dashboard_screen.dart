@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers/global_providers.dart';
@@ -188,27 +189,116 @@ class MetricsDashboardScreen extends ConsumerWidget {
                     children: [
                       Text('URL: ${_getUrl(log) ?? "N/A"}'),
                       const SizedBox(height: 8),
-                      const Text(
-                        'Headers:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Headers (${log.headers.length}):',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          if (log.headers.isNotEmpty)
+                            TextButton.icon(
+                              onPressed: () {
+                                final text = log.headers.entries
+                                    .map((e) => '${e.key}: ${e.value}')
+                                    .join('\n');
+                                Clipboard.setData(ClipboardData(text: text));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Headers copied to clipboard'),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.copy, size: 14),
+                              label: const Text('Copy Headers', style: TextStyle(fontSize: 11)),
+                            ),
+                        ],
                       ),
-                      Text(log.headers.toString()),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Body:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                      const SizedBox(height: 4),
                       Container(
+                        width: double.infinity,
+                        constraints: const BoxConstraints(maxHeight: 180),
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
                         ),
-                        child: Text(
-                          log.body,
-                          style: const TextStyle(
-                            fontFamily: 'monospace',
-                            fontSize: 12,
+                        child: log.headers.isEmpty
+                            ? const Text('No headers received', style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic))
+                            : SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: log.headers.entries
+                                      .map(
+                                        (e) => Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 2),
+                                          child: SelectableText.rich(
+                                            TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: '${e.key}: ',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                    color: Theme.of(context).colorScheme.primary,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: '${e.value}',
+                                                  style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Body:',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          if (log.body.isNotEmpty)
+                            TextButton.icon(
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(text: log.body));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Body copied to clipboard'),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.copy, size: 14),
+                              label: const Text('Copy Body', style: TextStyle(fontSize: 11)),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Container(
+                        width: double.infinity,
+                        constraints: const BoxConstraints(maxHeight: 220),
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+                        ),
+                        child: SingleChildScrollView(
+                          child: SelectableText(
+                            log.body.isEmpty ? '(Empty body)' : log.body,
+                            style: const TextStyle(
+                              fontFamily: 'monospace',
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ),

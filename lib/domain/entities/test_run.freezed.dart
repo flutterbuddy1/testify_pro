@@ -39,12 +39,8 @@ mixin _$TestRun {
   /// Error messages if test failed
   String? get error => throw _privateConstructorUsedError;
 
-  /// Serializes this TestRun to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TestRun
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TestRunCopyWith<TestRun> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -78,8 +74,6 @@ class _$TestRunCopyWithImpl<$Res, $Val extends TestRun>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TestRun
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -138,8 +132,6 @@ class _$TestRunCopyWithImpl<$Res, $Val extends TestRun>
     ) as $Val);
   }
 
-  /// Create a copy of TestRun
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TestMetricsCopyWith<$Res>? get finalMetrics {
@@ -184,8 +176,6 @@ class __$$TestRunImplCopyWithImpl<$Res>
       _$TestRunImpl _value, $Res Function(_$TestRunImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TestRun
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -334,7 +324,7 @@ class _$TestRunImpl implements _TestRun {
             (identical(other.error, error) || other.error == error));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -349,9 +339,7 @@ class _$TestRunImpl implements _TestRun {
       const DeepCollectionEquality().hash(_metadata),
       error);
 
-  /// Create a copy of TestRun
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TestRunImplCopyWith<_$TestRunImpl> get copyWith =>
@@ -392,27 +380,24 @@ abstract class _TestRun implements TestRun {
   DateTime get startTime;
   @override
   DateTime? get endTime;
+  @override
 
   /// Configuration (varies by test type)
-  @override
   Map<String, dynamic> get config;
+  @override
 
   /// Final metrics snapshot
-  @override
   TestMetrics? get finalMetrics;
+  @override
 
   /// Additional metadata (e.g., flow result, request details)
-  @override
   Map<String, dynamic> get metadata;
+  @override
 
   /// Error messages if test failed
-  @override
   String? get error;
-
-  /// Create a copy of TestRun
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TestRunImplCopyWith<_$TestRunImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

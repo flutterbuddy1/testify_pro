@@ -30,12 +30,8 @@ mixin _$ApiRequest {
   AuthConfig? get auth => throw _privateConstructorUsedError;
   int get timeoutMs => throw _privateConstructorUsedError;
 
-  /// Serializes this ApiRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ApiRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ApiRequestCopyWith<ApiRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -70,8 +66,6 @@ class _$ApiRequestCopyWithImpl<$Res, $Val extends ApiRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ApiRequest
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -125,8 +119,6 @@ class _$ApiRequestCopyWithImpl<$Res, $Val extends ApiRequest>
     ) as $Val);
   }
 
-  /// Create a copy of ApiRequest
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AuthConfigCopyWith<$Res>? get auth {
@@ -171,8 +163,6 @@ class __$$ApiRequestImplCopyWithImpl<$Res>
       _$ApiRequestImpl _value, $Res Function(_$ApiRequestImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ApiRequest
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -303,7 +293,7 @@ class _$ApiRequestImpl implements _ApiRequest {
                 other.timeoutMs == timeoutMs));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -317,9 +307,7 @@ class _$ApiRequestImpl implements _ApiRequest {
       auth,
       timeoutMs);
 
-  /// Create a copy of ApiRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ApiRequestImplCopyWith<_$ApiRequestImpl> get copyWith =>
@@ -366,11 +354,8 @@ abstract class _ApiRequest implements ApiRequest {
   AuthConfig? get auth;
   @override
   int get timeoutMs;
-
-  /// Create a copy of ApiRequest
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ApiRequestImplCopyWith<_$ApiRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -438,8 +423,6 @@ mixin _$AuthConfig {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
-  /// Serializes this AuthConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -459,9 +442,6 @@ class _$AuthConfigCopyWithImpl<$Res, $Val extends AuthConfig>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -481,8 +461,6 @@ class __$$BearerAuthImplCopyWithImpl<$Res>
       _$BearerAuthImpl _value, $Res Function(_$BearerAuthImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -525,13 +503,11 @@ class _$BearerAuthImpl implements BearerAuth {
             (identical(other.token, token) || other.token == token));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, token);
 
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BearerAuthImplCopyWith<_$BearerAuthImpl> get copyWith =>
@@ -622,10 +598,7 @@ abstract class BearerAuth implements AuthConfig {
       _$BearerAuthImpl.fromJson;
 
   String get token;
-
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BearerAuthImplCopyWith<_$BearerAuthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -647,8 +620,6 @@ class __$$BasicAuthImplCopyWithImpl<$Res>
       _$BasicAuthImpl _value, $Res Function(_$BasicAuthImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -702,13 +673,11 @@ class _$BasicAuthImpl implements BasicAuth {
                 other.password == password));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, username, password);
 
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BasicAuthImplCopyWith<_$BasicAuthImpl> get copyWith =>
@@ -802,10 +771,7 @@ abstract class BasicAuth implements AuthConfig {
 
   String get username;
   String get password;
-
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BasicAuthImplCopyWith<_$BasicAuthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -827,8 +793,6 @@ class __$$ApiKeyAuthImplCopyWithImpl<$Res>
       _$ApiKeyAuthImpl _value, $Res Function(_$ApiKeyAuthImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -893,13 +857,11 @@ class _$ApiKeyAuthImpl implements ApiKeyAuth {
                 other.location == location));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, key, value, location);
 
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ApiKeyAuthImplCopyWith<_$ApiKeyAuthImpl> get copyWith =>
@@ -995,10 +957,7 @@ abstract class ApiKeyAuth implements AuthConfig {
   String get key;
   String get value;
   ApiKeyLocation get location;
-
-  /// Create a copy of AuthConfig
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ApiKeyAuthImplCopyWith<_$ApiKeyAuthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

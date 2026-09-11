@@ -1,0 +1,83 @@
+{
+  "$schema": "https://testifypro.dev/schemas/flow.v1.json",
+  "name": "User Post & Verification Flow",
+  "description": "Demonstrates chained API requests with dynamic variable extraction, delay, and assertions.",
+  "variables": {
+    "baseUrl": "https://jsonplaceholder.typicode.com",
+    "testUserEmail": "qa_tester@testifypro.dev"
+  },
+  "tags": [
+    "smoke-test",
+    "posts",
+    "chained-api"
+  ],
+  "steps": [
+    {
+      "name": "1. Create New Post",
+      "enabled": true,
+      "stopOnFailure": true,
+      "thinkTimeMs": 300,
+      "request": {
+        "url": "{{baseUrl}}/posts",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "queryParams": {},
+        "body": {
+          "title": "Automated Flow Test for {{testUserEmail}}",
+          "body": "This post was created during a multi-step JSON flow execution.",
+          "userId": 1
+        }
+      },
+      "extractors": {
+        "createdPostId": "$.id",
+        "createdTitle": "$.title"
+      },
+      "assertions": [
+        {
+          "name": "Verify Status 201 Created",
+          "type": "statusCode",
+          "expected": "201"
+        },
+        {
+          "name": "Response under 3000ms",
+          "type": "responseTime",
+          "expected": "3000"
+        },
+        {
+          "name": "Verify Extracted Post ID is present",
+          "type": "jsonPath",
+          "actual": "$.id",
+          "expected": "101"
+        }
+      ]
+    },
+    {
+      "name": "2. Fetch Post Details",
+      "enabled": true,
+      "stopOnFailure": true,
+      "thinkTimeMs": 200,
+      "request": {
+        "url": "{{baseUrl}}/posts/1",
+        "method": "GET",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "queryParams": {}
+      },
+      "assertions": [
+        {
+          "name": "Verify Status 200 OK",
+          "type": "statusCode",
+          "expected": "200"
+        },
+        {
+          "name": "Body contains userId field",
+          "type": "contains",
+          "expected": "userId"
+        }
+      ]
+    }
+  ]
+}

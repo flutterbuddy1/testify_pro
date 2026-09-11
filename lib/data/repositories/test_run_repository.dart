@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 import '../../domain/entities/test_run.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/utils/map_utils.dart';

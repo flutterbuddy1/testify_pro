@@ -40,12 +40,14 @@ mixin _$FlowStep {
   /// Enable this step
   bool get enabled => throw _privateConstructorUsedError;
 
-  /// Serializes this FlowStep to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  /// Optional pre-request script executed before the HTTP call
+  String? get preRequestScript => throw _privateConstructorUsedError;
 
-  /// Create a copy of FlowStep
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  /// Optional test script executed after the response is received
+  String? get testScript => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
   $FlowStepCopyWith<FlowStep> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -63,7 +65,9 @@ abstract class $FlowStepCopyWith<$Res> {
       List<Assertion> assertions,
       int thinkTimeMs,
       bool stopOnFailure,
-      bool enabled});
+      bool enabled,
+      String? preRequestScript,
+      String? testScript});
 
   $ApiRequestCopyWith<$Res> get request;
 }
@@ -78,8 +82,6 @@ class _$FlowStepCopyWithImpl<$Res, $Val extends FlowStep>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of FlowStep
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -91,6 +93,8 @@ class _$FlowStepCopyWithImpl<$Res, $Val extends FlowStep>
     Object? thinkTimeMs = null,
     Object? stopOnFailure = null,
     Object? enabled = null,
+    Object? preRequestScript = freezed,
+    Object? testScript = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -125,11 +129,17 @@ class _$FlowStepCopyWithImpl<$Res, $Val extends FlowStep>
           ? _value.enabled
           : enabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      preRequestScript: freezed == preRequestScript
+          ? _value.preRequestScript
+          : preRequestScript // ignore: cast_nullable_to_non_nullable
+              as String?,
+      testScript: freezed == testScript
+          ? _value.testScript
+          : testScript // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
-  /// Create a copy of FlowStep
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ApiRequestCopyWith<$Res> get request {
@@ -155,7 +165,9 @@ abstract class _$$FlowStepImplCopyWith<$Res>
       List<Assertion> assertions,
       int thinkTimeMs,
       bool stopOnFailure,
-      bool enabled});
+      bool enabled,
+      String? preRequestScript,
+      String? testScript});
 
   @override
   $ApiRequestCopyWith<$Res> get request;
@@ -169,8 +181,6 @@ class __$$FlowStepImplCopyWithImpl<$Res>
       _$FlowStepImpl _value, $Res Function(_$FlowStepImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of FlowStep
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -182,6 +192,8 @@ class __$$FlowStepImplCopyWithImpl<$Res>
     Object? thinkTimeMs = null,
     Object? stopOnFailure = null,
     Object? enabled = null,
+    Object? preRequestScript = freezed,
+    Object? testScript = freezed,
   }) {
     return _then(_$FlowStepImpl(
       id: null == id
@@ -216,6 +228,14 @@ class __$$FlowStepImplCopyWithImpl<$Res>
           ? _value.enabled
           : enabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      preRequestScript: freezed == preRequestScript
+          ? _value.preRequestScript
+          : preRequestScript // ignore: cast_nullable_to_non_nullable
+              as String?,
+      testScript: freezed == testScript
+          ? _value.testScript
+          : testScript // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -231,7 +251,9 @@ class _$FlowStepImpl implements _FlowStep {
       final List<Assertion> assertions = const [],
       this.thinkTimeMs = 0,
       this.stopOnFailure = true,
-      this.enabled = true})
+      this.enabled = true,
+      this.preRequestScript,
+      this.testScript})
       : _extractors = extractors,
         _assertions = assertions;
 
@@ -286,9 +308,17 @@ class _$FlowStepImpl implements _FlowStep {
   @JsonKey()
   final bool enabled;
 
+  /// Optional pre-request script executed before the HTTP call
+  @override
+  final String? preRequestScript;
+
+  /// Optional test script executed after the response is received
+  @override
+  final String? testScript;
+
   @override
   String toString() {
-    return 'FlowStep(id: $id, name: $name, request: $request, extractors: $extractors, assertions: $assertions, thinkTimeMs: $thinkTimeMs, stopOnFailure: $stopOnFailure, enabled: $enabled)';
+    return 'FlowStep(id: $id, name: $name, request: $request, extractors: $extractors, assertions: $assertions, thinkTimeMs: $thinkTimeMs, stopOnFailure: $stopOnFailure, enabled: $enabled, preRequestScript: $preRequestScript, testScript: $testScript)';
   }
 
   @override
@@ -307,10 +337,14 @@ class _$FlowStepImpl implements _FlowStep {
                 other.thinkTimeMs == thinkTimeMs) &&
             (identical(other.stopOnFailure, stopOnFailure) ||
                 other.stopOnFailure == stopOnFailure) &&
-            (identical(other.enabled, enabled) || other.enabled == enabled));
+            (identical(other.enabled, enabled) || other.enabled == enabled) &&
+            (identical(other.preRequestScript, preRequestScript) ||
+                other.preRequestScript == preRequestScript) &&
+            (identical(other.testScript, testScript) ||
+                other.testScript == testScript));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -321,11 +355,11 @@ class _$FlowStepImpl implements _FlowStep {
       const DeepCollectionEquality().hash(_assertions),
       thinkTimeMs,
       stopOnFailure,
-      enabled);
+      enabled,
+      preRequestScript,
+      testScript);
 
-  /// Create a copy of FlowStep
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$FlowStepImplCopyWith<_$FlowStepImpl> get copyWith =>
@@ -348,7 +382,9 @@ abstract class _FlowStep implements FlowStep {
       final List<Assertion> assertions,
       final int thinkTimeMs,
       final bool stopOnFailure,
-      final bool enabled}) = _$FlowStepImpl;
+      final bool enabled,
+      final String? preRequestScript,
+      final String? testScript}) = _$FlowStepImpl;
 
   factory _FlowStep.fromJson(Map<String, dynamic> json) =
       _$FlowStepImpl.fromJson;
@@ -359,32 +395,37 @@ abstract class _FlowStep implements FlowStep {
   String get name;
   @override
   ApiRequest get request;
+  @override
 
   /// JSONPath extractors to extract data from response
   /// Format: {"variableName": "$.path.to.value"}
-  @override
   Map<String, String> get extractors;
+  @override
 
   /// Assertions to validate response
-  @override
   List<Assertion> get assertions;
+  @override
 
   /// Think time in milliseconds (simulates user delay before next step)
-  @override
   int get thinkTimeMs;
+  @override
 
   /// Stop flow if this step fails
-  @override
   bool get stopOnFailure;
+  @override
 
   /// Enable this step
-  @override
   bool get enabled;
-
-  /// Create a copy of FlowStep
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+
+  /// Optional pre-request script executed before the HTTP call
+  String? get preRequestScript;
+  @override
+
+  /// Optional test script executed after the response is received
+  String? get testScript;
+  @override
+  @JsonKey(ignore: true)
   _$$FlowStepImplCopyWith<_$FlowStepImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -400,12 +441,8 @@ mixin _$Assertion {
   String get expected => throw _privateConstructorUsedError;
   String? get actual => throw _privateConstructorUsedError;
 
-  /// Serializes this Assertion to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Assertion
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $AssertionCopyWith<Assertion> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -428,8 +465,6 @@ class _$AssertionCopyWithImpl<$Res, $Val extends Assertion>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Assertion
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -478,8 +513,6 @@ class __$$AssertionImplCopyWithImpl<$Res>
       _$AssertionImpl _value, $Res Function(_$AssertionImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Assertion
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -547,13 +580,11 @@ class _$AssertionImpl implements _Assertion {
             (identical(other.actual, actual) || other.actual == actual));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, name, type, expected, actual);
 
-  /// Create a copy of Assertion
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AssertionImplCopyWith<_$AssertionImpl> get copyWith =>
@@ -585,11 +616,8 @@ abstract class _Assertion implements Assertion {
   String get expected;
   @override
   String? get actual;
-
-  /// Create a copy of Assertion
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AssertionImplCopyWith<_$AssertionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -27,12 +27,8 @@ mixin _$Environment {
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
-  /// Serializes this Environment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Environment
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $EnvironmentCopyWith<Environment> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,8 +58,6 @@ class _$EnvironmentCopyWithImpl<$Res, $Val extends Environment>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Environment
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -128,8 +122,6 @@ class __$$EnvironmentImplCopyWithImpl<$Res>
       _$EnvironmentImpl _value, $Res Function(_$EnvironmentImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Environment
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -227,7 +219,7 @@ class _$EnvironmentImpl implements _Environment {
                 other.updatedAt == updatedAt));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -238,9 +230,7 @@ class _$EnvironmentImpl implements _Environment {
       createdAt,
       updatedAt);
 
-  /// Create a copy of Environment
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$EnvironmentImplCopyWith<_$EnvironmentImpl> get copyWith =>
@@ -278,11 +268,8 @@ abstract class _Environment implements Environment {
   DateTime get createdAt;
   @override
   DateTime get updatedAt;
-
-  /// Create a copy of Environment
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$EnvironmentImplCopyWith<_$EnvironmentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

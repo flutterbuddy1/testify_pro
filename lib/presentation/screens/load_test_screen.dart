@@ -116,7 +116,8 @@ class _LoadTestScreenState extends ConsumerState<LoadTestScreen> {
     } else {
       final flowsAsync = ref.read(flowsProvider);
       flow = flowsAsync.whenOrNull(
-        data: (flows) => flows.firstWhere((f) => f.id == _selectedFlowId),
+        data: (flows) =>
+            flows.where((f) => f.id == _selectedFlowId).firstOrNull,
       );
     }
 
@@ -364,34 +365,71 @@ class _LoadTestScreenState extends ConsumerState<LoadTestScreen> {
                     },
                   ),
                   const SizedBox(height: 24),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: _isRunning ? null : _startLoadTest,
-                          icon: const Icon(Icons.play_arrow),
-                          label: const Text('Start Load Test'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final isNarrow = constraints.maxWidth < 480;
+                      if (isNarrow) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: _isRunning ? null : _startLoadTest,
+                              icon: const Icon(Icons.play_arrow),
+                              label: const Text('Start Load Test'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            ElevatedButton.icon(
+                              onPressed: _isRunning ? _stopLoadTest : null,
+                              icon: const Icon(Icons.stop),
+                              label: const Text('Stop Test'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: _isRunning ? null : _startLoadTest,
+                              icon: const Icon(Icons.play_arrow),
+                              label: const Text('Start Load Test'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: _isRunning ? _stopLoadTest : null,
-                          icon: const Icon(Icons.stop),
-                          label: const Text('Stop Test'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: _isRunning ? _stopLoadTest : null,
+                              icon: const Icon(Icons.stop),
+                              label: const Text('Stop Test'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
@@ -424,7 +462,7 @@ class _LoadTestScreenState extends ConsumerState<LoadTestScreen> {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.green.withOpacity(0.2),
+                              color: Colors.green.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: Colors.green),
                             ),
@@ -453,53 +491,61 @@ class _LoadTestScreenState extends ConsumerState<LoadTestScreen> {
                       ],
                     ),
                     const Divider(height: 32),
-                    GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 2,
-                      children: [
-                        _MetricCard(
-                          label: 'Total Requests',
-                          value: '${_currentMetrics!.totalRequests}',
-                          icon: Icons.cloud_done,
-                          color: Colors.blue,
-                        ),
-                        _MetricCard(
-                          label: 'Success Rate',
-                          value: _currentMetrics!.successRatePercentage,
-                          icon: Icons.check_circle,
-                          color: Colors.green,
-                        ),
-                        _MetricCard(
-                          label: 'Error Rate',
-                          value: _currentMetrics!.errorRatePercentage,
-                          icon: Icons.error,
-                          color: Colors.red,
-                        ),
-                        _MetricCard(
-                          label: 'Current RPS',
-                          value: _currentMetrics!.currentRps.toStringAsFixed(1),
-                          icon: Icons.speed,
-                          color: Colors.purple,
-                        ),
-                        _MetricCard(
-                          label: 'Avg Response Time',
-                          value:
-                              '${_currentMetrics!.avgResponseTimeMs.toStringAsFixed(0)}ms',
-                          icon: Icons.timer,
-                          color: Colors.orange,
-                        ),
-                        _MetricCard(
-                          label: 'P95 Response Time',
-                          value:
-                              '${_currentMetrics!.p95ResponseTimeMs.toStringAsFixed(0)}ms',
-                          icon: Icons.trending_up,
-                          color: Colors.teal,
-                        ),
-                      ],
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final width = constraints.maxWidth;
+                        final cols = width > 750 ? 3 : (width > 460 ? 2 : 1);
+                        final ratio = width > 750 ? 2.2 : (width > 460 ? 2.2 : 3.0);
+                        return GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: cols,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: ratio,
+                          children: [
+                            _MetricCard(
+                              label: 'Total Requests',
+                              value: '${_currentMetrics!.totalRequests}',
+                              icon: Icons.cloud_done,
+                              color: Colors.blue,
+                            ),
+                            _MetricCard(
+                              label: 'Success Rate',
+                              value: _currentMetrics!.successRatePercentage,
+                              icon: Icons.check_circle,
+                              color: Colors.green,
+                            ),
+                            _MetricCard(
+                              label: 'Error Rate',
+                              value: _currentMetrics!.errorRatePercentage,
+                              icon: Icons.error,
+                              color: Colors.red,
+                            ),
+                            _MetricCard(
+                              label: 'Current RPS',
+                              value:
+                                  _currentMetrics!.currentRps.toStringAsFixed(1),
+                              icon: Icons.speed,
+                              color: Colors.purple,
+                            ),
+                            _MetricCard(
+                              label: 'Avg Response Time',
+                              value:
+                                  '${_currentMetrics!.avgResponseTimeMs.toStringAsFixed(0)}ms',
+                              icon: Icons.timer,
+                              color: Colors.orange,
+                            ),
+                            _MetricCard(
+                              label: 'P95 Response Time',
+                              value:
+                                  '${_currentMetrics!.p95ResponseTimeMs.toStringAsFixed(0)}ms',
+                              icon: Icons.trending_up,
+                              color: Colors.teal,
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -526,28 +572,34 @@ class _LoadTestScreenState extends ConsumerState<LoadTestScreen> {
         if (_currentMetrics != null)
           Padding(
             padding: const EdgeInsets.all(16),
-            child: GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 2.5,
-              children: [
-                _MetricCard(
-                  label: 'Throughput',
-                  value:
-                      '${_currentMetrics!.currentRps.toStringAsFixed(1)} rps',
-                  icon: Icons.speed,
-                  color: Colors.purple,
-                ),
-                _MetricCard(
-                  label: 'Success Rate',
-                  value: _currentMetrics!.successRatePercentage,
-                  icon: Icons.check_circle,
-                  color: Colors.green,
-                ),
-              ],
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final cols = constraints.maxWidth > 500 ? 2 : 1;
+                final ratio = cols == 2 ? 2.5 : 3.2;
+                return GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: cols,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: ratio,
+                  children: [
+                    _MetricCard(
+                      label: 'Throughput',
+                      value:
+                          '${_currentMetrics!.currentRps.toStringAsFixed(1)} rps',
+                      icon: Icons.speed,
+                      color: Colors.purple,
+                    ),
+                    _MetricCard(
+                      label: 'Success Rate',
+                      value: _currentMetrics!.successRatePercentage,
+                      icon: Icons.check_circle,
+                      color: Colors.green,
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         Expanded(
@@ -655,31 +707,35 @@ class _MetricCard extends StatelessWidget {
     return Card(
       elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               children: [
-                Icon(icon, color: color, size: 24),
+                Icon(icon, color: color, size: 20),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     label,
                     style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            Text(
-              value,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: color,
-                fontWeight: FontWeight.bold,
+            const SizedBox(height: 8),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                value,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: color,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

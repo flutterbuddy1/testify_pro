@@ -1,30 +1,52 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:testify_pro/core/providers/global_providers.dart';
+import 'package:testify_pro/data/repositories/api_history_repository.dart';
+import 'package:testify_pro/domain/entities/api_request.dart';
+import 'package:testify_pro/presentation/screens/api_test_screen.dart';
 
-import 'package:testify_pro/main.dart';
+class FakeApiHistoryRepository extends ApiHistoryRepository {
+  final List<ApiRequest> _items = [];
+
+  @override
+  Future<void> init() async {}
+
+  @override
+  Future<List<ApiRequest>> getHistory() async => _items;
+
+  @override
+  Future<void> saveRequest(ApiRequest request) async => _items.add(request);
+
+  @override
+  Future<void> clearAll() async => _items.clear();
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('ApiTestScreen renders URL bar and Send button', (WidgetTester tester) async {
+    final fakeRepo = FakeApiHistoryRepository();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          apiHistoryRepositoryProvider.overrideWithValue(fakeRepo),
+          activeEnvironmentProvider.overrideWithValue(null),
+        ],
+        child: const MaterialApp(
+          home: Scaffold(
+            body: ApiTestScreen(),
+          ),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Initial pump and settle
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify presence of URL field, method selector, and Send button
+    expect(find.text('GET'), findsOneWidget);
+    expect(find.text('Send'), findsOneWidget);
+    expect(find.byType(TextField), findsWidgets);
+    expect(find.text('Hit Send to see the response'), findsOneWidget);
   });
 }

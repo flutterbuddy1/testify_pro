@@ -1,0 +1,156 @@
+{
+  "info": {
+    "_postman_id": "96915270-ac32-436e-9812-e31785b85c67",
+    "name": "Rate Chart Automation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "STU Care",
+      "item": [
+        {
+          "name": "P1 Policy",
+          "item": [
+            {
+              "name": "Quotation - 20yrs",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "const actualValue = response.data.total_net_premium;",
+                      "pm.globals.set(\"actualValue\", actualValue);",
+                      "if (pm.response.code !== 200) { pm.expect.fail(); }"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "accept", "value": "application/json" },
+                  { "key": "authorization", "value": "Token {{token}}" },
+                  { "key": "content-type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"bundleName\": \"\",\n    \"healthDetails\": {\n        \"is_renewal\": false,\n        \"policyName\": \"{{Policy Name}}\",\n        \"policyType\": \"{{policyType}}\",\n        \"familyComposition\": \"{{familyComp}}\",\n        \"deductibleAmount\": \"{{Deductible}}\",\n        \"urn_number\": \"{{urn_number}}\",\n        \"members\": {{membersPayload}}\n    },\n    \"productType\": \"Health\",\n    \"planDetails\": {\n        \"name\": \"{{name}}\",\n        \"insurer\": \"{{insurer}}\",\n        \"duration\": \"12\",\n        \"policyType\": \"{{policyType}}\",\n        \"paymentMode\": \"online\",\n        \"durationType\": \"months\"\n    }\n}"
+                },
+                "url": {
+                  "raw": "{{URL}}/group/quotation",
+                  "host": ["{{URL}}"],
+                  "path": ["group", "quotation"]
+                }
+              }
+            },
+            {
+              "name": "Quotation - 30yrs",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "const actualValue = response.data.total_net_premium;",
+                      "pm.globals.set(\"actualValue\", actualValue);",
+                      "if (pm.response.code !== 200) { pm.expect.fail(); }"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "accept", "value": "application/json" },
+                  { "key": "authorization", "value": "Token {{token}}" },
+                  { "key": "content-type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"bundleName\": \"\",\n    \"healthDetails\": {\n        \"is_renewal\": false,\n        \"policyName\": \"{{Policy Name}}\",\n        \"policyType\": \"{{policyType}}\",\n        \"familyComposition\": \"{{familyComp}}\",\n        \"deductibleAmount\": \"{{Deductible}}\",\n        \"urn_number\": \"{{urn_number}}\",\n        \"members\": {{membersPayload}}\n    },\n    \"productType\": \"Health\",\n    \"planDetails\": {\n        \"name\": \"{{name}}\",\n        \"insurer\": \"{{insurer}}\",\n        \"duration\": \"12\",\n        \"policyType\": \"{{policyType}}\",\n        \"paymentMode\": \"online\",\n        \"durationType\": \"months\"\n    }\n}"
+                },
+                "url": {
+                  "raw": "{{URL}}/group/quotation",
+                  "host": ["{{URL}}"],
+                  "path": ["group", "quotation"]
+                }
+              }
+            },
+            {
+              "name": "Quotation - 45yrs",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "const actualValue = response.data.total_net_premium;",
+                      "pm.globals.set(\"actualValue\", actualValue);",
+                      "if (pm.response.code !== 200) { pm.expect.fail(); }"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "accept", "value": "application/json" },
+                  { "key": "authorization", "value": "Token {{token}}" },
+                  { "key": "content-type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"bundleName\": \"\",\n    \"healthDetails\": {\n        \"is_renewal\": false,\n        \"policyName\": \"{{Policy Name}}\",\n        \"policyType\": \"{{policyType}}\",\n        \"familyComposition\": \"{{familyComp}}\",\n        \"deductibleAmount\": \"{{Deductible}}\",\n        \"urn_number\": \"{{urn_number}}\",\n        \"members\": {{membersPayload}}\n    },\n    \"productType\": \"Health\",\n    \"planDetails\": {\n        \"name\": \"{{name}}\",\n        \"insurer\": \"{{insurer}}\",\n        \"duration\": \"12\",\n        \"policyType\": \"{{policyType}}\",\n        \"paymentMode\": \"online\",\n        \"durationType\": \"months\"\n    }\n}"
+                },
+                "url": {
+                  "raw": "{{URL}}/group/quotation",
+                  "host": ["{{URL}}"],
+                  "path": ["group", "quotation"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "P2 Policy",
+          "item": [
+            {
+              "name": "Quotation - 30yrs",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "const actualValue = response.data.total_net_premium;",
+                      "pm.globals.set(\"actualValue\", actualValue);",
+                      "if (pm.response.code !== 200) { pm.expect.fail(); }"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "accept", "value": "application/json" },
+                  { "key": "authorization", "value": "Token {{token}}" },
+                  { "key": "content-type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"bundleName\": \"\",\n    \"healthDetails\": {\n        \"is_renewal\": false,\n        \"policyName\": \"{{Policy Name}}\",\n        \"policyType\": \"{{policyType}}\",\n        \"familyComposition\": \"{{familyComp}}\",\n        \"deductibleAmount\": \"{{Deductible}}\",\n        \"urn_number\": \"{{urn_number}}\",\n        \"members\": {{membersPayload}}\n    },\n    \"productType\": \"Health\",\n    \"planDetails\": {\n        \"name\": \"{{name}}\",\n        \"insurer\": \"{{insurer}}\",\n        \"duration\": \"12\",\n        \"policyType\": \"{{policyType}}\",\n        \"paymentMode\": \"online\",\n        \"durationType\": \"months\"\n    }\n}"
+                },
+                "url": {
+                  "raw": "{{URL}}/group/quotation",
+                  "host": ["{{URL}}"],
+                  "path": ["group", "quotation"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

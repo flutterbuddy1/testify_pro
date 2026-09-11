@@ -63,12 +63,8 @@ mixin _$TestMetrics {
   List<DataPoint> get responseTimeHistory => throw _privateConstructorUsedError;
   List<DataPoint> get errorRateHistory => throw _privateConstructorUsedError;
 
-  /// Serializes this TestMetrics to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TestMetrics
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TestMetricsCopyWith<TestMetrics> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -108,8 +104,6 @@ class _$TestMetricsCopyWithImpl<$Res, $Val extends TestMetrics>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TestMetrics
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -234,8 +228,6 @@ class __$$TestMetricsImplCopyWithImpl<$Res>
       _$TestMetricsImpl _value, $Res Function(_$TestMetricsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TestMetrics
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -491,7 +483,7 @@ class _$TestMetricsImpl implements _TestMetrics {
                 .equals(other._errorRateHistory, _errorRateHistory));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -512,9 +504,7 @@ class _$TestMetricsImpl implements _TestMetrics {
       const DeepCollectionEquality().hash(_responseTimeHistory),
       const DeepCollectionEquality().hash(_errorRateHistory));
 
-  /// Create a copy of TestMetrics
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TestMetricsImplCopyWith<_$TestMetricsImpl> get copyWith =>
@@ -552,67 +542,64 @@ abstract class _TestMetrics implements TestMetrics {
 
   @override
   DateTime get timestamp;
+  @override
 
   /// Total number of requests completed
-  @override
   int get totalRequests;
+  @override
 
   /// Successful requests (2xx status)
-  @override
   int get successCount;
+  @override
 
   /// Failed requests (4xx, 5xx, or errors)
-  @override
   int get failureCount;
+  @override
 
   /// Current requests per second
-  @override
   double get currentRps;
+  @override
 
   /// Average response time in milliseconds
-  @override
   double get avgResponseTimeMs;
+  @override
 
   /// Minimum response time
-  @override
   double get minResponseTimeMs;
+  @override
 
   /// Maximum response time
-  @override
   double get maxResponseTimeMs;
+  @override
 
   /// 50th percentile (median)
-  @override
   double get p50ResponseTimeMs;
+  @override
 
   /// 95th percentile
-  @override
   double get p95ResponseTimeMs;
+  @override
 
   /// 99th percentile
-  @override
   double get p99ResponseTimeMs;
+  @override
 
   /// Error rate (0.0 to 1.0)
-  @override
   double get errorRate;
+  @override
 
   /// Active virtual users
-  @override
   int get activeUsers;
+  @override
 
   /// Time series data for charting (last N seconds)
-  @override
   List<DataPoint> get rpsHistory;
   @override
   List<DataPoint> get responseTimeHistory;
   @override
   List<DataPoint> get errorRateHistory;
-
-  /// Create a copy of TestMetrics
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TestMetricsImplCopyWith<_$TestMetricsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -626,12 +613,8 @@ mixin _$DataPoint {
   DateTime get timestamp => throw _privateConstructorUsedError;
   double get value => throw _privateConstructorUsedError;
 
-  /// Serializes this DataPoint to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of DataPoint
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $DataPointCopyWith<DataPoint> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -654,8 +637,6 @@ class _$DataPointCopyWithImpl<$Res, $Val extends DataPoint>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of DataPoint
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -694,8 +675,6 @@ class __$$DataPointImplCopyWithImpl<$Res>
       _$DataPointImpl _value, $Res Function(_$DataPointImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DataPoint
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -743,13 +722,11 @@ class _$DataPointImpl implements _DataPoint {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, timestamp, value);
 
-  /// Create a copy of DataPoint
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$DataPointImplCopyWith<_$DataPointImpl> get copyWith =>
@@ -775,11 +752,8 @@ abstract class _DataPoint implements DataPoint {
   DateTime get timestamp;
   @override
   double get value;
-
-  /// Create a copy of DataPoint
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$DataPointImplCopyWith<_$DataPointImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

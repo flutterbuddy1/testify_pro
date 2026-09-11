@@ -46,12 +46,8 @@ mixin _$LoadTestConfig {
   int get thinkTimeMs => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
-  /// Serializes this LoadTestConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of LoadTestConfig
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $LoadTestConfigCopyWith<LoadTestConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -86,8 +82,6 @@ class _$LoadTestConfigCopyWithImpl<$Res, $Val extends LoadTestConfig>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LoadTestConfig
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -182,8 +176,6 @@ class __$$LoadTestConfigImplCopyWithImpl<$Res>
       _$LoadTestConfigImpl _value, $Res Function(_$LoadTestConfigImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LoadTestConfig
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -340,7 +332,7 @@ class _$LoadTestConfigImpl implements _LoadTestConfig {
                 other.createdAt == createdAt));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -356,9 +348,7 @@ class _$LoadTestConfigImpl implements _LoadTestConfig {
       thinkTimeMs,
       createdAt);
 
-  /// Create a copy of LoadTestConfig
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$LoadTestConfigImplCopyWith<_$LoadTestConfigImpl> get copyWith =>
@@ -394,43 +384,40 @@ abstract class _LoadTestConfig implements LoadTestConfig {
   String get id;
   @override
   String get name;
+  @override
 
   /// Test target - either a single request ID or flow ID
-  @override
   String get targetId;
   @override
   TargetType get targetType;
+  @override
 
   /// Number of virtual users to simulate
-  @override
   int get virtualUsers;
+  @override
 
   /// Test duration in seconds
-  @override
   int get durationSeconds;
+  @override
 
   /// Ramp-up time in seconds (gradual increase of users)
-  @override
   int get rampUpSeconds;
+  @override
 
   /// Ramp-down time in seconds (gradual decrease of users)
-  @override
   int get rampDownSeconds;
+  @override
 
   /// Target requests per second (0 = unlimited)
-  @override
   int get targetRps;
+  @override
 
   /// Think time between iterations in milliseconds
-  @override
   int get thinkTimeMs;
   @override
   DateTime get createdAt;
-
-  /// Create a copy of LoadTestConfig
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$LoadTestConfigImplCopyWith<_$LoadTestConfigImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
