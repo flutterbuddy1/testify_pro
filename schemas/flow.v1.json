@@ -1,0 +1,253 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://testifypro.dev/schemas/flow.v1.json",
+  "title": "TestifyPro Flow Schema",
+  "description": "Schema definition for TestifyPro automated API multi-step testing flows.",
+  "type": "object",
+  "required": [
+    "name",
+    "steps"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URI to this JSON schema for IDE autocomplete and validation."
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique flow identifier (optional, auto-generated if omitted)."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name of the test flow."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description of what this flow tests."
+    },
+    "variables": {
+      "type": "object",
+      "description": "Key-value pair of flow-level variables accessible via {{variableName}} in steps.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "List of categorization tags for filtering (e.g., 'smoke', 'regression').",
+      "items": {
+        "type": "string"
+      }
+    },
+    "steps": {
+      "type": "array",
+      "description": "Ordered list of API request steps to execute sequentially.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/FlowStep"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 creation timestamp."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 last update timestamp."
+    }
+  },
+  "definitions": {
+    "FlowStep": {
+      "type": "object",
+      "required": [
+        "name",
+        "request"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Optional step ID (auto-generated if omitted)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Descriptive name of this test step."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this step is active during flow execution."
+        },
+        "stopOnFailure": {
+          "type": "boolean",
+          "default": true,
+          "description": "If true, halts subsequent steps if any assertion in this step fails."
+        },
+        "thinkTimeMs": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Delay in milliseconds to wait before executing this step."
+        },
+        "request": {
+          "$ref": "#/definitions/ApiRequest"
+        },
+        "extractors": {
+          "type": "object",
+          "description": "Map of variableName -> JSONPath expression (e.g., {'token': '$.data.accessToken'}).",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "assertions": {
+          "type": "array",
+          "description": "List of assertions evaluated against the response.",
+          "items": {
+            "$ref": "#/definitions/Assertion"
+          }
+        }
+      }
+    },
+    "ApiRequest": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Request URL. Supports {{variable}} template substitution."
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "HEAD",
+            "OPTIONS",
+            "get",
+            "post",
+            "put",
+            "patch",
+            "delete",
+            "head",
+            "options"
+          ],
+          "default": "GET",
+          "description": "HTTP method for this request."
+        },
+        "headers": {
+          "type": "object",
+          "description": "HTTP request headers (e.g. Content-Type, Authorization).",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "queryParams": {
+          "type": "object",
+          "description": "URL query parameters appended to the endpoint.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "body": {
+          "description": "Request payload. Can be a raw string or a native JSON object.",
+          "type": [
+            "string",
+            "object",
+            "array"
+          ]
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 100,
+          "default": 30000,
+          "description": "Request timeout in milliseconds."
+        },
+        "auth": {
+          "$ref": "#/definitions/AuthConfig"
+        }
+      }
+    },
+    "Assertion": {
+      "type": "object",
+      "required": [
+        "type",
+        "expected"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Optional human-readable title for this assertion check."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "statusCode",
+            "status",
+            "responseTime",
+            "time",
+            "duration",
+            "jsonPath",
+            "contains",
+            "notContains"
+          ],
+          "description": "Type of check: statusCode, responseTime (ms limit), jsonPath, contains, or notContains."
+        },
+        "actual": {
+          "type": "string",
+          "description": "For jsonPath assertions, the JSONPath expression to evaluate (e.g., '$.user.role')."
+        },
+        "expected": {
+          "type": "string",
+          "description": "Expected value, status code, max response time in ms, or substring."
+        }
+      }
+    },
+    "AuthConfig": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "bearer",
+            "basic",
+            "apikey"
+          ]
+        },
+        "token": {
+          "type": "string",
+          "description": "Bearer token string."
+        },
+        "username": {
+          "type": "string",
+          "description": "Basic auth username."
+        },
+        "password": {
+          "type": "string",
+          "description": "Basic auth password."
+        },
+        "key": {
+          "type": "string",
+          "description": "API Key header/query parameter name."
+        },
+        "value": {
+          "type": "string",
+          "description": "API Key secret value."
+        },
+        "location": {
+          "type": "string",
+          "enum": [
+            "header",
+            "query"
+          ]
+        }
+      }
+    }
+  }
+}
